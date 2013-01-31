@@ -1,4 +1,4 @@
-  <form action="<?php if ($do == 'myprofile'): ?>{CreateUrl('myprofile')}<?php else: ?>{CreateUrl('edituser', $theuser->id)}<?php endif; ?>" method="post">
+  <form action="<?php if ($do == 'myprofile'): ?>{CreateUrl('myprofile')}<?php else: ?>{CreateUrl('edituser', $theuser->id)}<?php endif; ?>" method="post" autocomplete="off">
     <ul class="form_elements">
       <li>
         <label for="realname">{L('realname')}</label>
@@ -32,7 +32,7 @@
       <li>
         <label for="dateformat">{L('dateformat')}</label>
         <input id="dateformat" class="text" name="dateformat" type="text" size="40" maxlength="30"
-          value="{Req::val('dateformat', $theuser->infos['dateformat'])}" />
+          value="{Req::val('dateformat', $theuser->infos['dateformat'])}" autocomplete="off"/>
       </li>
 
       <li>
@@ -108,12 +108,12 @@
       <?php endif; ?>
       <li>
         <label for="changepass">{L('changepass')}</label>
-        <input id="changepass" class="password" type="password" name="changepass" value="{Req::val('changepass')}" size="40" maxlength="100" />
+        <input id="changepass" class="password" type="password" name="changepass" value="{Req::val('changepass')}" size="40" maxlength="100" autocomplete="off"/>
       </li>
 
       <li>
         <label for="confirmpass">{L('confirmpass')}</label>
-        <input id="confirmpass" class="password" type="password" name="confirmpass" value="{Req::val('confirmpass')}" size="40" maxlength="100" />
+        <input id="confirmpass" class="password" type="password" name="confirmpass" value="{Req::val('confirmpass')}" size="40" maxlength="100" autocomplete="off"/>
       </li>
 
       <li>
