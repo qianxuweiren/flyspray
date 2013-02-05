@@ -119,12 +119,15 @@
 			<div id="projectselector">
 				<form id="projectselectorform" action="{$baseurl}index.php" method="get">
 					 <div>
+						  <!-- if the current project is the only project and it is default, do not display "all project" in the selector as well as the "Switch" button -->
+					  <?php if (count($fs->projects) != 1 || $proj->prefs['project_id'] != $fs->prefs['default_project']): ?>
 						<select name="project" onchange="document.getElementById('projectselectorform').submit()">
-							{!tpl_options(array_merge(array(0 => L('allprojects')), $fs->projects), $proj->id)}
+						  {!tpl_options(array_merge(array(0 => L('allprojects')), $fs->projects), $proj->id)}
 						</select>
 						<button type="submit">{L('switch')}</button>
 						<input type="hidden" name="do" value="{$do}" />
 						<input type="hidden" value="1" name="switch" />
+					<?php endif; ?>
 						<?php $check = array('area', 'id');
 									if ($do == 'reports') {
 										$check = array_merge($check, array('open', 'close', 'edit', 'assign', 'repdate', 'comments', 'attachments',

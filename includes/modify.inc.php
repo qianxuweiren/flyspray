@@ -628,7 +628,6 @@ switch ($action = Req::val('action'))
             break;
         }
 
-	/* The following code has been modified to accomodate a default_message for "all project" */
         $settings = array('jabber_server', 'jabber_port', 'jabber_username', 'notify_registration',
                 'jabber_password', 'anon_group', 'user_notify', 'admin_email', 'email_ssl', 'email_tls',
                 'lang_code', 'logo', 'gravatars', 'spam_proof', 'default_project', 'dateformat', 'jabber_ssl',
@@ -809,6 +808,7 @@ switch ($action = Req::val('action'))
             }
         }
 
+	
         if (!Post::val('onlypmgroup')):
         if ($user->perms('is_admin') || $user->id == Post::val('user_id')): // only admin or user himself can change
 
