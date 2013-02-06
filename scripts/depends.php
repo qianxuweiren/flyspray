@@ -179,5 +179,5 @@ $jasonData = json_encode($resultData);
 $page->assign('jasonData', $jasonData);
 $page->assign('taskid', $id);
 
-$page->setTitle(sprintf('FS#%d : %s', $id, L('dependencygraph')));
+$page->setTitle(sprintf('%s#%d : %s', $proj->prefs['ticket_prefix'],$id, L('dependencygraph')));
 $page->pushTpl('depends.tpl');

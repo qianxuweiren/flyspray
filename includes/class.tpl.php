@@ -202,7 +202,8 @@ function tpl_tasklink($task, $text = null, $strict = false, $attrs = array(), $t
     }
 
     if (is_null($text)) {
-        $text = sprintf('FS#%d - %s', $task['task_id'], Filters::noXSS($summary));
+	global $proj;
+        $text = sprintf('%s#%d - %s',$proj->prefs['ticket_prefix'], $task['task_id'], Filters::noXSS($summary));
     } elseif(is_string($text)) {
         $text = htmlspecialchars(utf8_substr($text, 0, 64), ENT_QUOTES, 'utf-8');
     } else {
@@ -583,9 +584,11 @@ class TextFormatter
                                   $text, $onlyfs, $type, $id, $instructions);
         } else {
             $text = ' ' . nl2br($text) . ' ';
-
+	    global $proj;
             // Change FS#123 into hyperlinks to tasks
-            return preg_replace_callback("/\b(?:FS#|bug )(\d+)\b/", 'tpl_fast_tasklink', trim($text));
+	    /* will not turn #num into a link even if there is no prefix */
+	    $tmp_pattern = sprintf ("/\b(?:%s#|bug )(\d+)\b/", $proj->prefs['ticket_prefix']);
+		return preg_replace_callback($tmp_pattern, 'tpl_fast_tasklink', trim($text));
         }
     }
 

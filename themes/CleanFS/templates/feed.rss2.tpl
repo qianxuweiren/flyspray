@@ -14,7 +14,7 @@
     <?php endif;
     foreach($task_details as $row):?>
     <item>
-      <title>FS#{$row['task_id']}: {$row['item_summary']}</title>
+      <title>{$proj->prefs['ticket_prefix']}#{$row['task_id']}: {$row['item_summary']}</title>
       <author>{$row['real_name']}</author>
       <pubDate>{date('r',intval($row['date_opened']))}</pubDate>
       <description><![CDATA[{!str_replace(chr(13), "<br />", Filters::noXSS(strip_tags($row['detailed_desc'])))}]]></description>

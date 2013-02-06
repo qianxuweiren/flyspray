@@ -807,8 +807,8 @@ Username: ',
 'csvexport'               => 'CSV 输出',
 'del'                     => '删除',
 'dispintro'               => '显示主介绍信息',
-'mainmessage'             => '主介绍信息'
-
+'mainmessage'             => '主介绍信息',
+'ticketprefix'            => '记录前缀‘
     ); 
 
 ?>

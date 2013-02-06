@@ -28,6 +28,10 @@
             {!tpl_options(Flyspray::listLangs(), Post::val('lang_code', $proj->prefs['lang_code']), true)}
           </select>
         </li>
+      <li>
+        <label for="ticket_prefix">{L('ticketprefix')}</label>
+        <input id="ticket_prefix" name="ticket_prefix" value="{$proj->prefs['ticket_prefix']}" type="text" class="required text" size="10" maxlength="10" />
+      </li>
 
         <li>
           <label for="intromesg">{L('intromessage')}</label>

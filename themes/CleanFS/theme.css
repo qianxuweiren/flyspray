@@ -961,7 +961,7 @@ div.comment_container {
       top: 4px; }
 
   div.comment_container .commentlink {
-    background-image: url(img/gray/comment_stroke_16x14.png);
+    background-image: url(img/blue/blue_comment.png);
     background-repeat: no-repeat;
     display: block;
     float: left;
@@ -970,7 +970,7 @@ div.comment_container {
     margin: 2px 4px 0 2px; }
 
   div.comment_container .commentlink:hover {
-    background-image: url(img/black/comment_stroke_16x14.png); }
+    background-image: url(img/blue/blue_smiley_comment.png); }
 
 
 textarea {

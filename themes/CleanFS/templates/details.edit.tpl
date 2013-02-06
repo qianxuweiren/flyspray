@@ -225,7 +225,7 @@
 		<div id="taskdetailsfull">
 
 				<h2 class="summary severity{Req::val('task_severity', $task_details['task_severity'])}">
-					<a href="{CreateUrl('details', $task_details['task_id'])}">FS#{$task_details['task_id']}</a> -
+					<a href="{CreateUrl('details', $task_details['task_id'])}">{$proj->prefs['ticket_prefix']}#{$task_details['task_id']}</a> -
 					<input class="text severity{Req::val('task_severity', $task_details['task_severity'])}" type="text"
 					name="item_summary" size="80" maxlength="100"
 					value="{Req::val('item_summary', $task_details['item_summary'])}" />

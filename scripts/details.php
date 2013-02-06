@@ -29,7 +29,7 @@ $page->uses('task_details');
 $page->assign('assigned_users', $task_details['assigned_to']);
 $page->assign('old_assigned', implode(' ', $task_details['assigned_to']));
 
-$page->setTitle(sprintf('FS#%d : %s', $task_details['task_id'], $task_details['item_summary']));
+$page->setTitle(sprintf('%s#%d : %s', $proj->prefs['ticket_prefix'],$task_details['task_id'], $task_details['item_summary']));
 
 if ((Get::val('edit') || (Post::has('item_summary') && !isset($_SESSION['SUCCESS']))) && $user->can_edit_task($task_details)) {
     $result = $db->Query('SELECT DISTINCT u.user_id, u.user_name, u.real_name, g.group_name, g.project_id

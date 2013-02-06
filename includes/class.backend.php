@@ -967,7 +967,8 @@ abstract class Backend
 
         // duplicate
         if ($reason == 6) {
-            preg_match("/\b(?:FS#|bug )(\d+)\b/", $comment, $dupe_of);
+	    $tmp_pattern = sprintf("/\b(?:%s#|bug )(\d+)\b/", $proj->prefs['ticket_prefix']);
+            preg_match($tmp_pattern, $comment, $dupe_of);
             if (count($dupe_of) >= 2) {
                 $existing = $db->Query('SELECT * FROM {related} WHERE this_task = ? AND related_task = ? AND is_duplicate = 1',
                                         array($task_id, $dupe_of[1]));

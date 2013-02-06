@@ -327,7 +327,7 @@
 
   <div id="taskdetailsfull">
 		<h2 class="summary severity{$task_details['task_severity']}">
-		 FS#{$task_details['task_id']} - {$task_details['item_summary']}
+		 {$proj->prefs['ticket_prefix']}#{$task_details['task_id']} - {$task_details['item_summary']}
 		</h2>
 		<!--<h3 class="taskdesc">{L('details')}</h3>-->
 

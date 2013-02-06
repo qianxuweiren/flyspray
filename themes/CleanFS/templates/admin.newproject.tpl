@@ -17,7 +17,12 @@
           {!tpl_options(Flyspray::listThemes(), Req::val('theme_style', $proj->prefs['theme_style']), true)}
         </select>
       </li>
-      
+
+      <li>
+        <label for="ticket_prefix">{L('ticketprefix')}</label>
+        <input id="ticket_prefix" name="ticket_prefix" value="BUG" type="text" class="required text" size="10" maxlength="10" />
+      </li>
+
       <li>
         <label for="langcode">{L('language')}</label>
         <select id="langcode" name="lang_code">

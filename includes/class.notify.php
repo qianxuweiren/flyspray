@@ -457,7 +457,7 @@ class Notifications {
                               'project_title' => L('attachedtoproject'));
 
          $body .= L('taskchanged') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ': ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n";
 
          foreach($arg1 as $change)
@@ -480,7 +480,7 @@ class Notifications {
       if ($type == NOTIFY_TASK_CLOSED)
       {
          $body .=  L('notify.taskclosed') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n\n";
          $body .= L('reasonforclosing') . ' ' . $task_details['resolution_name'] . "\n";
 
@@ -496,7 +496,7 @@ class Notifications {
       if ($type == NOTIFY_TASK_REOPENED)
       {
          $body .=  L('notify.taskreopened') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] .  ")\n\n";
          $body .= L('moreinfo') . "\n";
          $body .= CreateURL('details', $task_id) . "\n\n";
@@ -507,11 +507,11 @@ class Notifications {
          $depend_task = Flyspray::getTaskDetails($arg1);
 
          $body .=  L('newdep') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n";
          $body .= CreateURL('details', $task_id) . "\n\n\n";
          $body .= L('newdepis') . ':' . "\n\n";
-         $body .= 'FS#' . $depend_task['task_id'] . ' - ' .  $depend_task['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $depend_task['task_id'] . ' - ' .  $depend_task['item_summary'] . "\n";
          $body .= CreateURL('details', $depend_task['task_id']) . "\n\n";
       } // }}}
       // {{{ Dependency removed
@@ -520,11 +520,11 @@ class Notifications {
          $depend_task = Flyspray::getTaskDetails($arg1);
 
          $body .= L('notify.depremoved') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n";
          $body .= CreateURL('details', $task_id) . "\n\n\n";
          $body .= L('removeddepis') . ':' . "\n\n";
-         $body .= 'FS#' . $depend_task['task_id'] . ' - ' .  $depend_task['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $depend_task['task_id'] . ' - ' .  $depend_task['item_summary'] . "\n";
          $body .= CreateURL('details', $depend_task['task_id']) . "\n\n";
       } // }}}
       // {{{ Comment added
@@ -540,7 +540,7 @@ class Notifications {
          $comment = $db->FetchRow($result);
 
          $body .= L('notify.commentadded') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n\n";
          $body .= "----------\n";
          $body .= $comment['comment_text'] . "\n";
@@ -558,7 +558,7 @@ class Notifications {
       if ($type == NOTIFY_ATT_ADDED)
       {
          $body .= L('newattachment') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n\n";
          $body .= L('moreinfo') . "\n";
          $body .= CreateURL('details', $task_id) . "\n\n";
@@ -569,18 +569,18 @@ class Notifications {
          $related_task = Flyspray::getTaskDetails($arg1);
 
          $body .= L('notify.relatedadded') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n";
          $body .= CreateURL('details', $task_id) . "\n\n\n";
          $body .= L('relatedis') . ':' . "\n\n";
-         $body .= 'FS#' . $related_task['task_id'] . ' - ' . $related_task['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $related_task['task_id'] . ' - ' . $related_task['item_summary'] . "\n";
          $body .= CreateURL('details', $related_task['task_id']) . "\n\n";
       } // }}}
       // {{{ Ownership taken
       if ($type == NOTIFY_OWNERSHIP)
       {
          $body .= implode(', ', $task_details['assigned_to_name']) . ' ' . L('takenownership') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n\n";
          $body .= L('moreinfo') . "\n";
          $body .= CreateURL('details', $task_id) . "\n\n";
       } // }}}
@@ -598,7 +598,7 @@ class Notifications {
       if ($type == NOTIFY_PM_REQUEST)
       {
          $body .= L('requiresaction') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n\n";
          $body .= L('moreinfo') . "\n";
          $body .= CreateURL('details', $task_id) . "\n\n";
@@ -607,7 +607,7 @@ class Notifications {
       if ($type == NOTIFY_PM_DENY_REQUEST)
       {
          $body .= L('pmdeny') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n\n";
          $body .= L('denialreason') . ':' . "\n";
          $body .= $arg1 . "\n\n";
@@ -618,7 +618,7 @@ class Notifications {
       if ($type == NOTIFY_NEW_ASSIGNEE)
       {
          $body .= L('assignedtoyou') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n\n";
          $body .= L('moreinfo') . "\n";
          $body .= CreateURL('details', $task_id) . "\n\n";
@@ -629,11 +629,11 @@ class Notifications {
          $depend_task = Flyspray::getTaskDetails($arg1);
 
          $body .= L('taskwatching') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n";
          $body .= CreateURL('details', $task_id) . "\n\n\n";
          $body .= L('isdepfor') . ':' . "\n\n";
-         $body .= 'FS#' . $depend_task['task_id'] . ' - ' .  $depend_task['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $depend_task['task_id'] . ' - ' .  $depend_task['item_summary'] . "\n";
          $body .= CreateURL('details', $depend_task['task_id']) . "\n\n";
       } // }}}
       // {{{ Reversed dep - removed
@@ -642,18 +642,18 @@ class Notifications {
          $depend_task = Flyspray::getTaskDetails($arg1);
 
          $body .= L('taskwatching') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n";
          $body .= CreateURL('details', $task_id) . "\n\n\n";
          $body .= L('isnodepfor') . ':' . "\n\n";
-         $body .= 'FS#' . $depend_task['task_id'] . ' - ' .  $depend_task['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $depend_task['task_id'] . ' - ' .  $depend_task['item_summary'] . "\n";
          $body .= CreateURL('details', $depend_task['task_id']) . "\n\n";
       } // }}}
       // {{{ User added to assignees list
       if ($type == NOTIFY_ADDED_ASSIGNEES)
       {
          $body .= L('useraddedtoassignees') . "\n\n";
-         $body .= 'FS#' . $task_id . ' - ' . $task_details['item_summary'] . "\n";
+         $body .= $proj->prefs['ticket_prefix'] . $task_id . ' - ' . $task_details['item_summary'] . "\n";
          $body .= L('userwho') . ' - ' . $user->infos['real_name'] . ' (' . $user->infos['user_name'] . ")\n";
          $body .= CreateURL('details', $task_id) . "\n\n\n";
       } // }}}

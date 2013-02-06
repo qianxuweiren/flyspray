@@ -853,7 +853,8 @@ Regards,',
 'newdependency'           => 'New dependency:',
 'nouserstoadd'            => 'No Users To Add. Please ensure Name, Username, and Email are defined for each user.',
 'dispintro'               => 'Display main introductory message',
-'mainmessage'             => 'Main introductory message'
+'mainmessage'             => 'Main introductory message',
+'ticketprefix'            => 'Ticket prefix'
 /* note only the English version for 'dispintro' is supported
  * other languages should also be taken cared of in the future*/
 

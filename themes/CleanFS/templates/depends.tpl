@@ -1,6 +1,6 @@
 <div style="text-align:center;" class="box">
   <p><b>{L('pruninglevel')}: </b>{!implode(" &nbsp;|&nbsp; \n", $strlist)}</p>
-  <h2><a href="{CreateUrl('details', $task_id)}">FS#{!$task_id}</a>: {L('dependencygraph')}</h2>
+  <h2><a href="{CreateUrl('details', $task_id)}">{$proj->prefs['ticket_prefix']}#{!$task_id}</a>: {L('dependencygraph')}</h2>
 
 <div id="infovis" style="width:90%;height:50em"></div>    
 
