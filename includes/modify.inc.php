@@ -631,8 +631,23 @@ switch ($action = Req::val('action'))
         $settings = array('jabber_server', 'jabber_port', 'jabber_username', 'notify_registration',
                 'jabber_password', 'anon_group', 'user_notify', 'admin_email', 'email_ssl', 'email_tls',
                 'lang_code', 'logo', 'gravatars', 'spam_proof', 'default_project', 'dateformat', 'jabber_ssl',
-                'dateformat_extended', 'anon_reg', 'global_theme', 'smtp_server', 'page_title',
+			  'anon_reg', 'global_theme', 'smtp_server', 'page_title',
 			  'smtp_user', 'smtp_pass', 'funky_urls', 'reminder_daemon','cache_feeds', 'intro_message');
+	/* validate format of detailed date first */
+	$extd_format = Post::val('dateformat_extended', 0);
+	if (!empty($extd_format)) {
+	    $pattern = '#^(%[%aAbBcCdDeFgGhHIjklmMnpPrRsStTuUVwWxXyYzZ]|[[:blank:]])*$#';
+	    if (!preg_match( $pattern,$extd_format))  { /* invalid date format */
+		$_SESSION['ERROR'] = L('invaliddateformat');
+		break;
+	    }
+	    else { 
+		$db->Query('UPDATE {prefs} SET pref_value = ? WHERE pref_name =\'dateformat_extended\'',
+			   array($extd_format) ) ;
+		$fs->prefs['dateformat_extended'] = $extd_format;
+	    }
+	}		
+	    
         foreach ($settings as $setting) {
             $db->Query('UPDATE {prefs} SET pref_value = ? WHERE pref_name = ?',
                     array(Post::val($setting, 0), $setting));
@@ -865,15 +880,28 @@ switch ($action = Req::val('action'))
             Notifications::JabberRequestAuth(Post::val('jabber_id'));
         }
 
+	/* validate the detailed date format */
+	$extd_format = Post::val('dateformat_extended', 0);
+	if (!empty($extd_format)) {
+	    $pattern = '#^(%[%aAbBcCdDeFgGhHIjklmMnpPrRsStTuUVwWxXyYzZ]|[[:blank:]])*$#';
+	    if (!preg_match( $pattern,$extd_format))  { /* invalid date format */
+		$_SESSION['ERROR'] = L('invaliddateformat');
+		break;
+	    }
+	    else { 
+		$db->Query('UPDATE {users} SET dateformat_extended = ? WHERE user_id = ?',
+			   array($extd_format, Post::num('user_id') ) ) ;
+	    }
+	}		
+
         $db->Query('UPDATE  {users}
                        SET  real_name = ?, email_address = ?, notify_own = ?,
                             jabber_id = ?, notify_type = ?,
-                            dateformat = ?, dateformat_extended = ?,
-                            tasks_perpage = ?, time_zone = ?
+                            dateformat = ?, tasks_perpage = ?, time_zone = ?
                      WHERE  user_id = ?',
                 array(Post::val('real_name'), Post::val('email_address'), Post::num('notify_own', 0),
                     Post::val('jabber_id', 0), Post::num('notify_type'),
-                    Post::val('dateformat', 0), Post::val('dateformat_extended', 0),
+                    Post::val('dateformat', 0), 
                     Post::num('tasks_perpage'), Post::num('time_zone'), Post::num('user_id')));
 
         endif; // end only admin or user himself can change

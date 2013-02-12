@@ -808,7 +808,8 @@ Username: ',
 'del'                     => '删除',
 'dispintro'               => '显示主介绍信息',
 'mainmessage'             => '主介绍信息',
-'ticketprefix'            => '记录前缀‘
-    ); 
+'ticketprefix'            => '记录前缀',
+'invaliddateformat'       => '详细日期格式不正确，请参考strftime()'
+); 
 
 ?>

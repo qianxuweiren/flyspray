@@ -854,9 +854,8 @@ Regards,',
 'nouserstoadd'            => 'No Users To Add. Please ensure Name, Username, and Email are defined for each user.',
 'dispintro'               => 'Display main introductory message',
 'mainmessage'             => 'Main introductory message',
-'ticketprefix'            => 'Ticket prefix'
-/* note only the English version for 'dispintro' is supported
- * other languages should also be taken cared of in the future*/
+'ticketprefix'            => 'Ticket prefix',
+'invaliddateformat'       => 'The detailed date format is invalid! Please check the standard used by strftime()'
 
     );
 
