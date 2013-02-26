@@ -137,6 +137,9 @@
 	
 					<label class="default multisel" for="closed">{L('closedby')}</label>
 					{!tpl_userselect('closed', Get::val('closed'), 'closed')}
+
+					<label>{L('unass_only')}</label>
+					<input name="unass_only" type="checkbox" />
         </fieldset>
 
         <fieldset class="advsearch_dates"><legend>{L('dates')}</legend>
@@ -192,6 +195,7 @@
         </thead>
         <tbody>
         <?php foreach ($tasks as $task_details):?>
+	<?php if (Get::val ("unass_only") && $task_details['num_assigned']) {--$total; continue;} ?>
         <tr id="task{!$task_details['task_id']}" class="severity{$task_details['task_severity']}">
           <td class="caret">
           </td>

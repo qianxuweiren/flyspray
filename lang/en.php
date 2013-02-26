@@ -855,8 +855,8 @@ Regards,',
 'dispintro'               => 'Display main introductory message',
 'mainmessage'             => 'Main introductory message',
 'ticketprefix'            => 'Ticket prefix',
-'invaliddateformat'       => 'The detailed date format is invalid! Please check the standard used by strftime()'
-
+'invaliddateformat'       => 'The detailed date format is invalid! Please check the standard used by strftime()',
+'unass_only'              => 'Show unassigned tasks only'
     );
 
 ?>
