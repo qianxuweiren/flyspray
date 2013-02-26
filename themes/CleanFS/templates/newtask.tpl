@@ -85,7 +85,7 @@
             <select onchange="getElementById('edit_summary').className = 'summary severity' + this.value;
                               getElementById('itemsummary').className = 'text severity' + this.value;"
                               id="severity" class="adminlist" name="task_severity">
-              {!tpl_options($fs->severities, Req::val('task_severity', 2))}
+              {!tpl_options($fs->severities, Req::val('task_severity', 3))}
             </select>
           </li>
 
