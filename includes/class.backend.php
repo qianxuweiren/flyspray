@@ -440,6 +440,7 @@ abstract class Backend
             $db->Query('DELETE FROM {attachments} WHERE attachment_id = ?',
                        array($task['attachment_id']));
             @unlink(BASEDIR . '/attachments/' . $task['file_name']);
+            @unlink(BASEDIR . '/attachments/' . $task['file_name_tb']);
             Flyspray::logEvent($task['task_id'], 8, $task['orig_name']);
         }
     }

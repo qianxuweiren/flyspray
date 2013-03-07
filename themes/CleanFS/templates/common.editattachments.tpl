@@ -9,7 +9,13 @@
           <?php else: ?>
           <del>
           <?php endif; ?>
-          <?php
+	  <?php
+	     // if there is a thumbnail, display it instead of the icon image
+	     $tbpath = BASEDIR . '/attachments/'. $attachment['file_name_tb'];
+	     $tburl = $baseurl.'attachments/'.$attachment['file_name_tb'];
+	     if (isset ($attachment['file_name_tb']) && file_exists($tbpath)): ?>
+	  <img src="{$tburl}" alt="{$tburl}" />
+	  <?php else:
           // Strip the mimetype to get the icon image name
           list($main) = explode('/', $attachment['file_type']);
           $imgdir = BASEDIR . "/themes/{$proj->prefs['theme_style']}/mime/";
@@ -20,6 +26,7 @@
           <?php else: ?>
           <img src="{$imgpath}{$main}.png" alt="" title="{$attachment['file_type']}" />
           <?php endif; ?>
+	  <?php endif; ?>
           &nbsp;&nbsp;{$attachment['orig_name']}
           <?php if (file_exists(BASEDIR . '/attachments/' . $attachment['file_name'])): ?>
           </a>
