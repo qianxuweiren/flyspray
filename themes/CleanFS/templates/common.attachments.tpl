@@ -8,9 +8,14 @@
     <del>
     <?php endif; ?>
 
-
-<?php
-      // Strip the mimetype to get the icon image name
+      <?php
+	 // if there is a thumbnail, display it instead of the icon image
+	 $tbpath = BASEDIR . '/attachments/'. $attachment['file_name_tb'];
+	 $tburl = $baseurl.'attachments/'.$attachment['file_name_tb'];
+	 if (isset ($attachment['file_name_tb']) && file_exists($tbpath)): ?>
+      <img src="{$tburl}" alt="{$tburl}" />
+      <?php else:
+	    // Strip the mimetype to get the icon image name
       list($main) = explode('/', $attachment['file_type']);
       $imgdir = BASEDIR . "/themes/{$proj->prefs['theme_style']}/mime/";
       $imgpath = "{$baseurl}themes/{$proj->prefs['theme_style']}/mime/";
@@ -20,6 +25,8 @@
 <?php else: ?>
       <img src="{$imgpath}{$main}.png" alt="" title="{$attachment['file_type']}" />
       <?php endif; ?>
+<?php endif; ?>
+	  
       &nbsp;&nbsp;
  <!-- if the file name is too long, concatenate and append ellipsis -->
       <?php if (utf8_strlen($attachment['orig_name']) > 30): ?>
