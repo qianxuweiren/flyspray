@@ -362,11 +362,26 @@ abstract class Backend
                 continue;
             }
 
-
             $fname = substr($task_id . '_' . md5(uniqid(mt_rand(), true)), 0, 30);
             $path = BASEDIR .'/attachments/'. $fname ;
 
             $tmp_name = $_FILES[$source]['tmp_name'][$key];
+
+	    /* generate a thumbnail */
+	    $tname = NULL;
+	    if ( ($oldimage = Backend::create_image ($tmp_name, $_FILES[$source]['name'][$key] )) != 0  ) { 
+		list($width, $height) = getimagesize ($tmp_name);
+		$nwidth = 20;
+		$nheight = 30;
+		
+		$thumb = imagecreatetruecolor ($nwidth, $nheight);
+		imagecopyresized ($thumb, $oldimage, 0, 0 ,0,0, $nwidth, $nheight, $width, $height);
+		/* the 20 is arbitrary */
+		$tname = substr($task_id . '_' . $nwidth.'x'.$nheight. '_'. md5(uniqid(mt_rand(), true)), 0, 20);
+		imagejpeg ($thumb, BASEDIR.'/attachments/'.$tname);
+		imagedestroy ($oldimage);
+		imagedestroy ($thumb);
+	    }
 
             // Then move the uploaded file and remove exe permissions
             if(!@move_uploaded_file($tmp_name, $path)) {
@@ -386,17 +401,17 @@ abstract class Backend
             } elseif($type = Flyspray::check_mime_type($path)) {
              $_FILES[$source]['type'][$key] = $type;
             }// we can try even more, however, far too much code is needed.
-
+	    
             $db->Query("INSERT INTO  {attachments}
                                      ( task_id, comment_id, file_name,
                                        file_type, file_size, orig_name,
-                                       added_by, date_added)
-                             VALUES  (?, ?, ?, ?, ?, ?, ?, ?)",
+                                       added_by, date_added, file_name_tb)
+                             VALUES  (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     array($task_id, $comment_id, $fname,
                         $_FILES[$source]['type'][$key],
                         $_FILES[$source]['size'][$key],
                         $_FILES[$source]['name'][$key],
-                        $user->id, time()));
+			  $user->id, time(), $tname));
 
             // Fetch the attachment id for the history log
             $result = $db->Query('SELECT  attachment_id
@@ -409,6 +424,27 @@ abstract class Backend
 
         return $res;
     }
+
+    /**
+     * helper function for generating a thumb nail
+     * */
+    static function create_image($path, $name) {
+	$ext = strtolower( end (explode ('.', $name)) );
+	if ( $ext == 'png') {
+	    return imagecreatefrompng ($path);
+	} else if ($ext == 'gif') {
+	    return imagecreatefromgif($path);
+	} else if ($ext == 'jpeg' || $ext== 'jpg') {
+	    return imagecreatefromjpeg($path);
+	} else if ($ext == 'gd') {
+	    return imagecreatefromgd($path);
+	} else if ($ext == 'gd2') {
+	    return imagecreatefromgd2($path);
+	} else {
+	    return 0;
+	}
+    }
+    
 
     /**
      * Delete one or more attachments of a task or comment

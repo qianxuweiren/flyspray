@@ -35,6 +35,10 @@
         <td>{!tpl_checkbox('view_tasks', Req::val('view_tasks', !Req::val('action') && $group_details['view_tasks']), 'viewtasks')}</td>
       </tr>
       <tr>
+        <td><label for="viewowntasks">{L('viewowntasks')}</label></td>
+        <td>{!tpl_checkbox('view_tasks', Req::val('view_tasks', !Req::val('action') && $group_details['view_tasks']), 'viewtasks')}</td>
+      </tr>
+<tr>
         <td><label for="canopenjobs">{L('opennewtasks')}</label></td>
         <td>{!tpl_checkbox('open_new_tasks', Req::val('open_new_tasks', !Req::val('action') && $group_details['open_new_tasks']), 'canopenjobs')}</td>
       </tr>

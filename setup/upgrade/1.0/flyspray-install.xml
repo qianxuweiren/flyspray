@@ -80,6 +80,8 @@
     <field name="file_name" type="C" size="30">
       <NOTNULL/>
     </field>
+    <field name="file_name_tb" type="C" size="30">
+    </field>
     <field name="file_type" type="C" size="255">
       <NOTNULL/>
     </field>
