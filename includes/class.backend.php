@@ -437,18 +437,19 @@ abstract class Backend
     /**
      * helper function for generating a thumbnail
      * */
+    /* suppress error output in case users upload file ended with "jpg" but the file is actually a text file */
     static function create_image($path, $name) {
 	$ext = strtolower( end (explode ('.', $name)) );
 	if ( $ext == 'png') {
-	    return imagecreatefrompng ($path);
+	    return @imagecreatefrompng ($path);
 	} else if ($ext == 'gif') {
-	    return imagecreatefromgif($path);
+	    return @imagecreatefromgif($path);
 	} else if ($ext == 'jpeg' || $ext== 'jpg') {
-	    return imagecreatefromjpeg($path);
+	    return @imagecreatefromjpeg($path);
 	} else if ($ext == 'gd') {
-	    return imagecreatefromgd($path);
+	    return @imagecreatefromgd($path);
 	} else if ($ext == 'gd2') {
-	    return imagecreatefromgd2($path);
+	    return @imagecreatefromgd2($path);
 	} else {
 	    return 0;
 	}
