@@ -809,7 +809,11 @@ Username: ',
 'dispintro'               => '显示主介绍信息',
 'mainmessage'             => '主介绍信息',
 'ticketprefix'            => '记录前缀',
-'invaliddateformat'       => '详细日期格式不正确，请参考strftime()'
+'invaliddateformat'       => '详细日期格式不正确，请参考strftime()',
+'unass_only'              => '仅显示未被指派的任务',
+'tbsize'           => '设置缩略图尺寸',
+'nothumbnail'             => '设置"0"不显示缩略图'
+
 ); 
 
 ?>

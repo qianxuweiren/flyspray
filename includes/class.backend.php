@@ -369,10 +369,19 @@ abstract class Backend
 
 	    /* generate a thumbnail */
 	    $tname = NULL;
-	    if ( ($oldimage = Backend::create_image ($tmp_name, $_FILES[$source]['name'][$key] )) != 0  ) { 
+	    $sql = $db->Query ('SELECT tb_width
+                                FROM {projects} p
+                                WHERE p.project_id=?',
+			       array($task['project_id']), 1);
+	    $nwidth = $db->fetchOne ($sql);
+	    $sql = $db->Query ('SELECT tb_height
+                                FROM {projects} p
+                                WHERE p.project_id=?',
+			       array($task['project_id']), 1);
+	    $nheight = $db->fetchOne ($sql);
+	    if ( ($oldimage = Backend::create_image ($tmp_name, $_FILES[$source]['name'][$key] )) != 0
+		&& $nwidth > 0 && $nheight > 0 ) { 
 		list($width, $height) = getimagesize ($tmp_name);
-		$nwidth = 20;
-		$nheight = 30;
 		
 		$thumb = imagecreatetruecolor ($nwidth, $nheight);
 		imagecopyresized ($thumb, $oldimage, 0, 0 ,0,0, $nwidth, $nheight, $width, $height);
@@ -426,7 +435,7 @@ abstract class Backend
     }
 
     /**
-     * helper function for generating a thumb nail
+     * helper function for generating a thumbnail
      * */
     static function create_image($path, $name) {
 	$ext = strtolower( end (explode ('.', $name)) );

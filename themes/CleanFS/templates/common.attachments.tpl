@@ -12,7 +12,8 @@
 	 // if there is a thumbnail, display it instead of the icon image
 	 $tbpath = BASEDIR . '/attachments/'. $attachment['file_name_tb'];
 	 $tburl = $baseurl.'attachments/'.$attachment['file_name_tb'];
-	 if (isset ($attachment['file_name_tb']) && file_exists($tbpath)): ?>
+	 if (isset ($attachment['file_name_tb']) && file_exists($tbpath) &&
+	     $proj->prefs['tb_width']>0 && $proj->prefs['tb_height'] > 0): ?>
       <img src="{$tburl}" alt="{$tburl}" />
       <?php else:
 	    // Strip the mimetype to get the icon image name

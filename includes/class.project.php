@@ -291,14 +291,6 @@ class Project
     }
 
 
-/*     function getPrefix () */
-/*     { */
-/* 	global $db; */
-/* 	$return $db->cached_query ( */
-/* 	    "SELECT  ticket_prefix */
-/*              FROM    flyspray_projects */
-/* "; */
-/*     } */
 	/**
 	 * Returns the activity by between dates for a project.
 	 * @param date $startdate

@@ -857,7 +857,8 @@ Regards,',
 'ticketprefix'            => 'Ticket prefix',
 'invaliddateformat'       => 'The detailed date format is invalid! Please check the standard used by strftime()',
 'unass_only'              => 'Show unassigned tasks only',
-'viewowntasks'            => 'View own tasks'
+'tbsize'           => 'Set the thumbnail size',
+'nothumbnail'             => '"0" for no thumbnail'
     );
 
 ?>

@@ -41,7 +41,12 @@
           <button tabindex="9" type="button" onclick="showPreview('intromesg', '{#$baseurl}', 'preview')">{L('preview')}</button>
         <?php endif; ?>
       </li>
-      
+
+      <li>
+        <label for="tbsize">{L('tbsize')}</label>
+        <input id="tbsize" name="tb_width" value="50" type="text" class="required text" size="3" maxlength="3" /> x <input id="tbsize" name="tb_height" value="50" type="text" class="required text" size="3" maxlength="3" /> <i>{L('nothumbnail')}</i>
+      </li>
+
       <li>
         <label for="othersview">{L('othersview')}</label>
         {!tpl_checkbox('others_view', Req::val('others_view', Req::val('action') != 'admin.newproject'), 'othersview')}

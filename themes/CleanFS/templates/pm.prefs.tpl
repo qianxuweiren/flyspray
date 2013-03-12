@@ -62,11 +62,11 @@
           {!tpl_checkbox('project_is_active', Post::val('project_is_active', $proj->prefs['project_is_active']), 'isactive')}
         </li>
 
-        <li>
-          <label for="disp_intro">{L('dispintro')}</label>
-          {!tpl_checkbox('disp_intro', Post::val('disp_intro', $proj->prefs['disp_intro']), 'disp_intro')}
-        </li>
-	
+      <li>
+        <label for="tbsize">{L('tbsize')}</label>
+        <input id="tbsize" name="tb_width" value="{$proj->prefs['tb_width']}" type="text" class="required text" size="3" maxlength="3" /> x <input id="tbsize" name="tb_height" value="{$proj->prefs['tb_height']}" type="text" class="required text" size="3" maxlength="3" />  <i>{L('nothumbnail')}</i>
+      </li>
+
         <li>
           <label>{!tpl_checkbox('delete_project', null)} {L('deleteproject')}</label>
           <select name="move_to">{!tpl_options(array_merge(array(0 => L('none')), Flyspray::listProjects()), null, false, null, (string) $proj->id)}</select>

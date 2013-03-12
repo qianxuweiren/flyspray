@@ -692,19 +692,24 @@ switch ($action = Req::val('action'))
                     ? $fs->prefs['visible_fields']
                     : 'id tasktype severity summary status dueversion progress';
 
-
+	if (!is_numeric (Post::num('tb_width')) || !is_numeric( Post::num('tb_height'))) {
+            Flyspray::show_error(L('fieldsmissing'));
+            break;
+        }
+	    
         $db->Query('INSERT INTO  {projects}
                                  ( project_title, theme_style, intro_message,
                                    others_view, anon_open, project_is_active,
                                    visible_columns, visible_fields, lang_code,
                                    notify_email, notify_jabber, disp_intro,
-                                   ticket_prefix)
-                         VALUES  (?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?,?)',
+                                   ticket_prefix, tb_width, tb_height)
+                         VALUES  (?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?,?, ?, ?)',
                   array(Post::val('project_title'), Post::val('theme_style'),
                         Post::val('intro_message'), Post::num('others_view', 0),
                         Post::num('anon_open', 0),  $viscols, $visfields,
                         Post::val('lang_code', 'en'), '', '',
-		        Post::num('disp_intro'), Post::val('ticket_prefix')
+		        Post::num('disp_intro'), Post::val('ticket_prefix'),
+		        Post::num('tb_width'), Post::num('tb_height'),			
 		      ));
 
         $sql = $db->Query('SELECT project_id FROM {projects} ORDER BY project_id DESC', false, 1);
@@ -790,6 +795,61 @@ switch ($action = Req::val('action'))
 	$args[] = Post::val('disp_intro');
 	$cols[] = 'ticket_prefix';
 	$args[] = Post::val('ticket_prefix');
+	
+	if (!is_numeric (Post::val('tb_width')) || !is_numeric( Post::val('tb_height'))
+	    || Post::num('tb_width') < 0 || Post::num('tb_height') < 0) {
+            Flyspray::show_error(L('fieldsmissing'));
+            break;
+        }
+	$nwidth = Post::val('tb_width');
+	$nheight = Post::val('tb_height');
+	$cols[] = 'tb_width';
+	$args[] = $nwidth;
+	$cols[] = 'tb_height';
+	$args[] = $nheight;
+
+	/* if width and height are changed, we update all thumbnails */
+	$wh = $db->Query ('SELECT tb_width
+                                FROM {projects} p
+                                WHERE p.project_id=?',
+			   array($proj->id), 1);
+	$owidth = $db->fetchOne ($wh);
+	$wh = $db->Query ('SELECT tb_height
+                                FROM {projects} p
+                                WHERE p.project_id=?',
+			  array($proj->id), 1);
+	$oheight = $db->fetchOne ($wh);
+
+	$thumbnails = $db->Query ("SELECT task_id, file_name_tb, orig_name, file_name FROM {attachments}");
+	if (($nwidth != $oheight || $nheight != $oheight) && $nwidth > 0 && $nheight > 0 ) { 
+	    while ($thumbnail = $thumbnails->FetchRow () ) {
+		$orig_name = $thumbnail['orig_name'];
+		$tb_name = $thumbnail['file_name_tb'];
+		$file_name = $thumbnail['file_name'];
+
+		$oldimage = Backend::create_image (BASEDIR.'/attachments/'.$file_name, $orig_name);
+		/* if unable to create, we don't support it */
+		if ($oldimage == 0)
+			continue;
+		list($width, $height) = getimagesize (BASEDIR.'/attachments/'.$file_name);
+		$thumb = imagecreatetruecolor ($nwidth, $nheight);
+		imagecopyresized ($thumb, $oldimage, 0, 0 ,0,0, $nwidth, $nheight, $width, $height);
+		/* if thumbnail exist, replace it; if not, create one and update db */
+		if ($tb_name)
+		    imagejpeg ($thumb, BASEDIR.'/attachments/'.$tb_name);
+		else {
+		    $tb_name = substr($thumb['task_id'] . '_' . $nwidth.'x'.$nheight. '_'. md5(uniqid(mt_rand(), true)), 0, 20);
+		    imagejpeg ($thumb, BASEDIR.'/attachments/'.$tb_name);
+		    $db->Query("UPDATE {attachments} SET file_name_tb=?
+                                WHERE file_name=?",
+			       array($tb_name, $file_name));
+		}
+
+		imagedestroy ($oldimage);
+		imagedestroy ($thumb);
+	    }
+	}
+	
         $cols[] = 'default_cat_owner';
         $args[] =  Flyspray::UserNameToId(Post::val('default_cat_owner'));
         $args[] = $proj->id;
@@ -1376,7 +1436,8 @@ switch ($action = Req::val('action'))
                     array($attachment['attachment_id']));
 
             @unlink(BASEDIR .'/attachments/' . $attachment['file_name']);
-
+            @unlink(BASEDIR .'/attachments/' . $attachment['file_name_tb']);
+	    
             Flyspray::logEvent($attachment['task_id'], 8, $attachment['orig_name']);
         }
 
